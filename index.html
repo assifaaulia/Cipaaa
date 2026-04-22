@@ -7,24 +7,22 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icons/icon-192x192-A.png" type="image/png" />
-  <title>IKUZOO GAMEE - 100+ Games Database</title>
-
+  <meta name="theme-color" content="#001a4d" />
+  <title>Gamefinder - 100+ Games Database</title>
+  
   <style>
-    /* Dasar Body */
+    /* --- Gaya Dasar Body (PS5 Dark Mode) --- */
     body {
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #ffffff;
-      color: #333;
+      background-color: #000c24; 
+      color: #ffffff;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Background Samar (Watermark) */
+    /* --- Background Watermark --- */
     .bg-watermark {
       position: fixed;
       top: 0;
@@ -36,30 +34,34 @@
       flex-wrap: wrap;
       justify-content: space-around;
       align-content: space-around;
-      opacity: 0.05;
+      opacity: 0.03; 
       pointer-events: none;
     }
 
-    .bg-icon {
-      font-size: 80px;
-      margin: 40px;
-      filter: grayscale(100%);
-    }
+    .bg-icon { font-size: 80px; margin: 40px; filter: invert(100%); }
 
+    /* --- Header Gamefinder --- */
     .header {
       text-align: center;
       padding: 40px 20px;
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 4px solid #003791;
+      background: rgba(0, 12, 36, 0.9);
+      border-bottom: 4px solid #00aaff;
       backdrop-filter: blur(5px);
     }
 
     .header h1 {
       margin: 0;
-      color: #003791;
+      color: #00aaff;
       font-size: 2.5rem;
       font-weight: 900;
       text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+    }
+    
+    .header p {
+        color: #b0c4de;
+        margin-top: 10px;
     }
 
     .main {
@@ -69,33 +71,37 @@
       align-items: center;
     }
 
+    /* --- Kotak Pencarian --- */
     .card {
-      background: rgba(248, 249, 250, 0.9);
+      background: rgba(30, 40, 60, 0.9);
       padding: 25px;
       border-radius: 20px;
       width: 100%;
-      max-width: 550px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      border: 1px solid #ddd;
+      max-width: 600px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      border: 1px solid #2a3b5a;
       backdrop-filter: blur(10px);
-    }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 15px;
     }
 
     input {
       width: 100%;
       padding: 15px;
       border-radius: 10px;
-      border: 2px solid #ddd;
+      border: 2px solid #2a3b5a;
+      background-color: #000c24;
+      color: #ffffff;
       font-size: 1rem;
       box-sizing: border-box;
+      transition: 0.3s;
+    }
+    
+    input:focus {
+        outline: none;
+        border-color: #00aaff;
     }
 
     button {
-      background: #003791;
+      background: #0044cc;
       color: white;
       border: none;
       padding: 15px;
@@ -104,33 +110,42 @@
       font-weight: bold;
       width: 100%;
       font-size: 1rem;
+      margin-top: 15px;
       transition: 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    button:hover {
-      background: #0072ce;
+    button:hover { 
+        background: #00aaff;
+        box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
     }
 
-    .result-box {
-      margin-top: 25px;
-      display: none;
-      border-top: 2px solid #eee;
-      padding-top: 20px;
+    /* --- List Hasil Pencarian --- */
+    .game-result-item {
+      background: #1a253a;
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid #2a3b5a;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     .status-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 10px;
       margin-top: 15px;
     }
 
     .status-item {
-      background: white;
+      background: #000c24;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid #eee;
+      border: 1px solid #2a3b5a;
       text-align: center;
+      font-size: 0.85rem;
+      color: #b0c4de;
     }
 
     .badge {
@@ -142,20 +157,13 @@
       font-size: 0.75rem;
     }
 
-    .supported {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .not-supported {
-      background: #f8d7da;
-      color: #721c24;
-    }
+    .supported { background: #004d1a; color: #80ffaa; border: 1px solid #00cc44; }
+    .not-supported { background: #4d0000; color: #ff8080; border: 1px solid #cc0000; }
 
     .footer {
       text-align: center;
       padding: 30px;
-      color: #999;
+      color: #667788;
       font-size: 0.9rem;
     }
   </style>
@@ -163,180 +171,80 @@
 
 <body>
   <div class="bg-watermark">
-    <div class="bg-icon">🎮</div>
-    <div class="bg-icon">🕶️</div>
-    <div class="bg-icon">🕹️</div>
-    <div class="bg-icon">📺</div>
-    <div class="bg-icon">🎮</div>
-    <div class="bg-icon">🕶️</div>
+    <div class="bg-icon">🎮</div><div class="bg-icon">🕶️</div>
+    <div class="bg-icon">🕹️</div><div class="bg-icon">📺</div>
   </div>
 
   <header class="header">
-    <h1>IKUZOO GAMEE</h1>
+    <h1>GAMEFINDER</h1>
     <p>Database 100+ Games & Compatibility</p>
   </header>
 
   <main class="main">
     <section class="card">
       <div class="search-box">
-        <input type="text" id="gameInput" placeholder="Cari 100+ Game (Contoh: God of War, Mario, RE...)"
-          onkeyup="if(event.keyCode===13) checkGame()">
+        <input type="text" id="gameInput" placeholder="Cari Game (Contoh: Resident Evil, GTA, Dynasty...)" onkeyup="if(event.keyCode===13) checkGame()">
       </div>
       <button onclick="checkGame()">CEK KOMPATIBILITAS</button>
-
-      <div id="result" class="result-box">
-        <h2 id="resTitle" style="color:#003791; text-align:center;"></h2>
-        <div class="status-grid" id="resList"></div>
-      </div>
+      <div id="resultArea"></div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© 2025 Anwar Fauzi - IKUZOO GAMEE</p>
+    <p>© 2025 Anwar Fauzi - Gamefinder</p>
   </footer>
 
   <script>
-    // DATABASE 100 GAME
+    // Database (sudah mencakup RE, GTA, dan Dynasty Warriors)
     const gameDb = [
-      { n: "GTA VI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "GTA V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "GTA IV", ps3: true, ps4: false, ps5: false, vr: false, nin: false },
-      { n: "God of War Ragnarok", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "God of War (2018)", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "God of War III", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Elden Ring", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Spider-Man 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Spider-Man Miles Morales", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "The Last of Us Part I", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "The Last of Us Part II", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "The Last of Us Remastered", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Resident Evil 4 Remake", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-      { n: "Resident Evil Village", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Resident Evil 7", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Astro Bot", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
-      { n: "Horizon Forbidden West", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Horizon Zero Dawn", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Gran Turismo 7", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-      { n: "Ghost of Tsushima", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Minecraft", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Roblox", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-      { n: "Fortnite", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Apex Legends", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Cyberpunk 2077", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "The Witcher 3: Wild Hunt", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Red Dead Redemption 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Red Dead Redemption 1", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Hogwarts Legacy", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "FC 25 (FIFA)", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "FC 24", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Zelda: Tears of the Kingdom", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-      { n: "Zelda: Breath of the Wild", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-      { n: "Super Mario Odyssey", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-      { n: "Mario Kart 8 Deluxe", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-      { n: "Animal Crossing: New Horizons", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-      { n: "Final Fantasy VII Rebirth", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Final Fantasy XVI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Tekken 8", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Street Fighter 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Mortal Kombat 1", ps3: false, ps4: false, ps5: true, vr: false, nin: true },
-      { n: "Demon's Souls", ps3: true, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Bloodborne", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Dark Souls Remastered", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Dark Souls III", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Sekiro: Shadows Die Twice", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Black Myth: Wukong", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Helldivers 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Stellar Blade", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Ratchet & Clank: Rift Apart", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Uncharted 4: A Thief's End", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Uncharted: The Nathan Drake Collection", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Call of Duty: Black Ops 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Call of Duty: Warzone", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Destiny 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Fall Guys", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Among Us", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Overwatch 2", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Genshin Impact", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Honkai: Star Rail", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Metal Gear Solid V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Metal Gear Solid Δ: Snake Eater", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Death Stranding", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "It Takes Two", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Monster Hunter: World", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Monster Hunter Rise", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Monster Hunter Wilds", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Assassin's Creed Shadows", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Assassin's Creed Valhalla", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Persona 5 Royal", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Persona 3 Reload", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Sonic Frontiers", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Skyrim", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Fallout 4", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-      { n: "Fallout 76", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Doom Eternal", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "No Man's Sky", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-      { n: "Beat Saber", ps3: false, ps4: false, ps5: false, vr: true, nin: false },
-      { n: "Phasmophobia", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
-      { n: "Gran Blue Fantasy Relink", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Baldur's Gate 3", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Diablo IV", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Batman: Arkham Knight", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Batman: Arkham City", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Watch Dogs Legion", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Far Cry 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Devil May Cry 5", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Yakuza: Like a Dragon", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Like a Dragon: Infinite Wealth", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Infamous Second Son", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Journey", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Stray", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Kena: Bridge of Spirits", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Sackboy: A Big Adventure", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "LittleBigPlanet 3", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Bioshock Collection", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Mass Effect Legendary Edition", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-      { n: "Borderlands 3", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-      { n: "Dead Space Remake", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-      { n: "Alan Wake 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false }
+        { n: "Resident Evil 4 Remake", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
+        { n: "Resident Evil 3 Remake", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+        { n: "Resident Evil 2 Remake", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+        { n: "Resident Evil Village", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+        { n: "Resident Evil 7", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+        { n: "Resident Evil HD Remaster", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "Resident Evil 5", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "Resident Evil 6", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "GTA VI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+        { n: "GTA V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+        { n: "GTA IV", ps3: true, ps4: false, ps5: false, vr: false, nin: false },
+        { n: "GTA San Andreas - Definitive", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "Dynasty Warriors Origins", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+        { n: "Dynasty Warriors 9 Empires", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "Dynasty Warriors 8 With XL", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+        { n: "God of War Ragnarok", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+        { n: "Elden Ring", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+        { n: "Minecraft", ps3: true, ps4: true, ps5: true, vr: true, nin: true }
     ];
 
     function checkGame() {
       const input = document.getElementById('gameInput').value.toLowerCase().trim();
-      const resultDiv = document.getElementById('result');
-      const resTitle = document.getElementById('resTitle');
-      const resList = document.getElementById('resList');
+      const resultArea = document.getElementById('resultArea');
+      resultArea.innerHTML = "";
 
       if (!input) { alert("Masukkan nama game!"); return; }
 
-      const game = gameDb.find(g => g.n.toLowerCase().includes(input));
+      const matches = gameDb.filter(g => g.n.toLowerCase().includes(input));
 
-      if (game) {
-        resultDiv.style.display = "block";
-        resTitle.innerText = game.n;
-
-        const badge = (s) => `<span class="badge ${s ? 'supported' : 'not-supported'}">${s ? '✔ YES' : '✘ NO'}</span>`;
-
-        resList.innerHTML = `
-          <div class="status-item">PS5 ${badge(game.ps5)}</div>
-          <div class="status-item">PS4 ${badge(game.ps4)}</div>
-          <div class="status-item">PS3 ${badge(game.ps3)}</div>
-          <div class="status-item">VR ${badge(game.vr)}</div>
-          <div class="status-item">Nintendo ${badge(game.nin)}</div>
-        `;
+      if (matches.length > 0) {
+        matches.forEach(game => {
+          const badge = (s) => `<span class="badge ${s ? 'supported' : 'not-supported'}">${s ? '✔ YES' : '✘ NO'}</span>`;
+          resultArea.innerHTML += `
+            <div class="game-result-item">
+              <h2 style="color:#00aaff; text-align:center; margin-top:0;">${game.n}</h2>
+              <div class="status-grid">
+                <div class="status-item">PS5 ${badge(game.ps5)}</div>
+                <div class="status-item">PS4 ${badge(game.ps4)}</div>
+                <div class="status-item">PS3 ${badge(game.ps3)}</div>
+                <div class="status-item">VR ${badge(game.vr)}</div>
+                <div class="status-item">Nintendo ${badge(game.nin)}</div>
+              </div>
+            </div>`;
+        });
       } else {
-        alert("Game '" + input + "' tidak ada di 100 list kami. Coba game lain!");
-        resultDiv.style.display = "none";
+        alert("Game tidak ditemukan!");
       }
-    }
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(() => console.log('SW registered!'))
-          .catch(err => console.error('SW gagal:', err));
-      });
     }
   </script>
 </body>
-
 </html>
