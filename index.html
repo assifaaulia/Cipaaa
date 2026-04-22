@@ -8,6 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
   <title>IKUZOO GAMEE - 100+ Games Database</title>
 
   <style>
@@ -325,6 +327,12 @@
         alert("Game '" + input + "' tidak ada di 100 list kami. Coba game lain!");
         resultDiv.style.display = "none";
       }
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('SW registered!'))
+        .catch(err => console.error('SW gagal:', err));
     }
   </script>
 </body>
