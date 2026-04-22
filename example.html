@@ -1,48 +1,365 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#4F46E5" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icons/icon-192x192-A.png" type="image/png" />
-  <title>PWA Template Responsif</title>
-  <link rel="stylesheet" href="assets/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameFinder - Fast Database</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --glass: rgba(15, 23, 42, 0.95);
+            --accent-blue: #3b82f6;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --heart-red: #ef4444;
+            --gold: #fbbf24;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #020617);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        /* --- Navbar --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            color: var(--accent-blue);
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+
+        /* --- Fitur Favorite Pojok Kanan Atas --- */
+        .fav-nav-btn {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .fav-nav-btn i { color: var(--heart-red); }
+        .fav-nav-btn:hover { background: rgba(239, 68, 68, 0.1); border-color: var(--heart-red); }
+
+        /* --- Search Area --- */
+        .search-container { position: relative; max-width: 700px; margin: 0 auto 30px; }
+        .search-input {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid #1e293b;
+            border-radius: 18px;
+            color: white;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            outline: none;
+        }
+        .search-input:focus { border-color: var(--accent-blue); }
+
+        /* --- Tabs --- */
+        .platform-tabs { display: flex; justify-content: center; gap: 10px; margin: 20px 0 30px; flex-wrap: wrap; }
+        .tab {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: var(--text-dim);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .tab.active { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.2); color: white; }
+
+        /* --- Section Title --- */
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gold);
+        }
+
+        /* --- Grid --- */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background: var(--glass);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); }
+        
+        .top-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--gold);
+            color: black;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        .game-icon {
+            font-size: 2rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 12px;
+        }
+
+        .game-card-title { font-size: 0.85rem; font-weight: 700; display: block; height: 34px; overflow: hidden; }
+
+        /* --- Favorite Toggle Button --- */
+        .fav-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .fav-toggle.active { color: var(--heart-red); }
+
+        /* --- Detail View --- */
+        .detail-view {
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .compat-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 15px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+        .status-tag { font-weight: bold; }
+        .status-tag.yes { color: #4ade80; }
+        .status-tag.star { color: #fbbf24; }
+        .status-tag.no { color: #f87171; }
+
+        .btn-back { 
+            background: var(--accent-blue); 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            margin-top: 25px; 
+            width: 100%;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
-  <header class="header">
-    <h1>PWA Template</h1>
-    <p>Contoh aplikasi web progresif yang responsif</p>
-  </header>
 
-  <main class="main">
-    <section class="card">
-      <h2>Selamat Datang!</h2>
-      <p>
-        Ini adalah template PWA responsif. Kamu bisa ubah teks, warna, dan layout-nya sesuai kebutuhan.
-      </p>
-      <button onclick="alert('PWA aktif!')">Tes Tombol</button>
-    </section>
-  </main>
-  <button onclick="alert('tombol testing hidup')">Ini tombol 1</button>
+<div class="container">
+    <nav class="navbar">
+        <div class="logo" onclick="initHome()">
+            <i class="fas fa-gamepad"></i> GameFinder
+        </div>
+        <button class="fav-nav-btn" onclick="showAllFavorites()">
+            <i class="fas fa-heart"></i> Favorit
+        </button>
+    </nav>
 
-  <footer class="footer">
-    <p>© 2025 Anwar Fauzi</p>
-  </footer>
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari 500+ Game (Resident Evil, GTA, FIFA...)" onkeyup="handleSearch()">
+    </div>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(() => console.log('SW registered!'))
-        .catch(err => console.error('SW gagal:', err));
+    <div class="platform-tabs">
+        <div class="tab" data-platform="ps5" onclick="filterBy('ps5', this)">PS5</div>
+        <div class="tab" data-platform="ps4" onclick="filterBy('ps4', this)">PS4</div>
+        <div class="tab" data-platform="ps3" onclick="filterBy('ps3', this)">PS3</div>
+        <div class="tab" data-platform="vr" onclick="filterBy('vr', this)">VR</div>
+        <div class="tab" data-platform="nin" onclick="filterBy('nin', this)">NINTENDO</div>
+    </div>
+
+    <div id="mainDisplay"></div>
+</div>
+
+<script>
+    const top10Ids = [1, 13, 25, 40, 50, 65, 80, 100, 120, 150];
+    let favorites = JSON.parse(localStorage.getItem('gamefinder_favs')) || [];
+
+    const seriesLibrary = [
+        { name: "Resident Evil", count: 12, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'yes', nin:'yes'} },
+        { name: "Grand Theft Auto", count: 8, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'yes'} },
+        { name: "Call of Duty", count: 15, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'no'} },
+        { name: "FIFA / FC", count: 25, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'yes'} },
+        { name: "God of War", count: 7, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'no'} },
+        { name: "Final Fantasy", count: 16, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'yes'} },
+        { name: "Spider-Man", count: 4, platforms: {ps5:'star', ps4:'yes', ps3:'no', vr:'no', nin:'no'} },
+        { name: "Super Mario", count: 20, platforms: {ps5:'no', ps4:'no', ps3:'no', vr:'no', nin:'yes'} },
+        { name: "Tekken", count: 8, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'no'} },
+        { name: "The Last of Us", count: 3, platforms: {ps5:'star', ps4:'yes', ps3:'yes', vr:'no', nin:'no'} }
+    ];
+
+    let fullDb = [];
+
+    seriesLibrary.forEach(s => {
+        for(let i = 1; i <= s.count; i++) {
+            fullDb.push({
+                id: fullDb.length + 1,
+                title: `${s.name} ${i === 1 && s.count > 1 ? 'Collection' : (i === 1 ? '' : i)}`,
+                ps5: s.platforms.ps5, ps4: s.platforms.ps4, ps3: s.platforms.ps3, vr: s.platforms.vr, nin: s.platforms.nin
+            });
+        }
+    });
+
+    for(let i = fullDb.length; i <= 505; i++) {
+        fullDb.push({
+            id: i,
+            title: `Classic Archive Game Vol. ${i}`,
+            ps5: 'no', ps4: 'yes', ps3: 'yes', vr: 'no', nin: 'yes'
+        });
     }
-  </script>
 
+    function initHome() {
+        document.getElementById('searchInput').value = '';
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        const top10Games = fullDb.filter(g => top10Ids.includes(g.id));
+        renderList(top10Games, "TOP 10 GAMES OF THE WEEK");
+    }
+
+    function renderList(list, title = "DATABASE GAMES") {
+        const display = document.getElementById('mainDisplay');
+        let html = `<div class="section-title">${title}</div><div class="games-grid">`;
+        
+        list.forEach((g, index) => {
+            const isTop = top10Ids.includes(g.id);
+            const isFav = favorites.includes(g.id);
+            html += `
+                <div class="game-card" onclick="showDetail(${g.id})">
+                    ${isTop && title.includes('TOP 10') ? `<div class="top-badge">#${index + 1}</div>` : ''}
+                    <button class="fav-toggle ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${g.id})">
+                        <i class="fa${isFav ? 's' : 'r'} fa-heart"></i>
+                    </button>
+                    <div class="game-icon"><i class="fas fa-compact-disc"></i></div>
+                    <span class="game-card-title">${g.title}</span>
+                </div>
+            `;
+        });
+        
+        if(list.length === 0) html += `<p style="grid-column: 1/-1; color: var(--text-dim);">Daftar kosong.</p>`;
+        
+        html += `</div>`;
+        display.innerHTML = html;
+    }
+
+    function toggleFav(e, id) {
+        e.stopPropagation();
+        const index = favorites.indexOf(id);
+        if (index > -1) {
+            favorites.splice(index, 1);
+        } else {
+            favorites.push(id);
+        }
+        localStorage.setItem('gamefinder_favs', JSON.stringify(favorites));
+        
+        const btn = e.currentTarget;
+        btn.classList.toggle('active');
+        const icon = btn.querySelector('i');
+        icon.classList.toggle('fas');
+        icon.classList.toggle('far');
+    }
+
+    function showAllFavorites() {
+        const favGames = fullDb.filter(g => favorites.includes(g.id));
+        renderList(favGames, "KOLEKSI FAVORIT SAYA");
+    }
+
+    function filterBy(plt, el) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        const filtered = fullDb.filter(g => g[plt] === 'yes' || g[plt] === 'star');
+        renderList(filtered, `PLATFORM: ${plt.toUpperCase()}`);
+    }
+
+    function handleSearch() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        if(q === "") return initHome();
+        const filtered = fullDb.filter(g => g.title.toLowerCase().includes(q));
+        renderList(filtered, `HASIL PENCARIAN: "${q}"`);
+    }
+
+    function showDetail(id) {
+        const g = fullDb.find(x => x.id === id);
+        const tag = (v) => v === 'star' ? '<span class="status-tag star">⭐ Star</span>' : (v === 'yes' ? '<span class="status-tag yes">✔ Yes</span>' : '<span class="status-tag no">✘ No</span>');
+
+        document.getElementById('mainDisplay').innerHTML = `
+            <div class="detail-view">
+                <h2 style="margin-top:0; color:var(--accent-blue);">${g.title}</h2>
+                <div class="compat-row"><span>PlayStation 5</span> ${tag(g.ps5)}</div>
+                <div class="compat-row"><span>PlayStation 4</span> ${tag(g.ps4)}</div>
+                <div class="compat-row"><span>PlayStation 3</span> ${tag(g.ps3)}</div>
+                <div class="compat-row"><span>Virtual Reality</span> ${tag(g.vr)}</div>
+                <div class="compat-row"><span>Nintendo Switch</span> ${tag(g.nin)}</div>
+                <button class="btn-back" onclick="initHome()"><i class="fas fa-chevron-left"></i> KEMBALI</button>
+            </div>
+        `;
+    }
+
+    window.onload = initHome;
+</script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker terdaftar dengan scope: ', registration.scope);
+                })
+                .catch((err) => {
+                    console.log('Pendaftaran Service Worker gagal: ', err);
+                });
+        });
+    }
+</script>
 </body>
-
 </html>
