@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#ffffff" />
   <title>IKUZOO GAMEE - 100+ Games Database</title>
-  
+
   <style>
     /* Dasar Body */
     body {
@@ -38,7 +38,11 @@
       pointer-events: none;
     }
 
-    .bg-icon { font-size: 80px; margin: 40px; filter: grayscale(100%); }
+    .bg-icon {
+      font-size: 80px;
+      margin: 40px;
+      filter: grayscale(100%);
+    }
 
     .header {
       text-align: center;
@@ -69,7 +73,7 @@
       border-radius: 20px;
       width: 100%;
       max-width: 550px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       border: 1px solid #ddd;
       backdrop-filter: blur(10px);
     }
@@ -101,7 +105,9 @@
       transition: 0.2s;
     }
 
-    button:hover { background: #0072ce; }
+    button:hover {
+      background: #0072ce;
+    }
 
     .result-box {
       margin-top: 25px;
@@ -134,8 +140,15 @@
       font-size: 0.75rem;
     }
 
-    .supported { background: #d4edda; color: #155724; }
-    .not-supported { background: #f8d7da; color: #721c24; }
+    .supported {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .not-supported {
+      background: #f8d7da;
+      color: #721c24;
+    }
 
     .footer {
       text-align: center;
@@ -148,9 +161,12 @@
 
 <body>
   <div class="bg-watermark">
-    <div class="bg-icon">🎮</div><div class="bg-icon">🕶️</div>
-    <div class="bg-icon">🕹️</div><div class="bg-icon">📺</div>
-    <div class="bg-icon">🎮</div><div class="bg-icon">🕶️</div>
+    <div class="bg-icon">🎮</div>
+    <div class="bg-icon">🕶️</div>
+    <div class="bg-icon">🕹️</div>
+    <div class="bg-icon">📺</div>
+    <div class="bg-icon">🎮</div>
+    <div class="bg-icon">🕶️</div>
   </div>
 
   <header class="header">
@@ -161,7 +177,8 @@
   <main class="main">
     <section class="card">
       <div class="search-box">
-        <input type="text" id="gameInput" placeholder="Cari 100+ Game (Contoh: God of War, Mario, RE...)" onkeyup="if(event.keyCode===13) checkGame()">
+        <input type="text" id="gameInput" placeholder="Cari 100+ Game (Contoh: God of War, Mario, RE...)"
+          onkeyup="if(event.keyCode===13) checkGame()">
       </div>
       <button onclick="checkGame()">CEK KOMPATIBILITAS</button>
 
@@ -179,106 +196,106 @@
   <script>
     // DATABASE 100 GAME
     const gameDb = [
-        { n: "GTA VI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "GTA V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "GTA IV", ps3: true, ps4: false, ps5: false, vr: false, nin: false },
-        { n: "God of War Ragnarok", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "God of War (2018)", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "God of War III", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Elden Ring", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Spider-Man 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Spider-Man Miles Morales", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "The Last of Us Part I", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "The Last of Us Part II", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "The Last of Us Remastered", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Resident Evil 4 Remake", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-        { n: "Resident Evil Village", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Resident Evil 7", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Astro Bot", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
-        { n: "Horizon Forbidden West", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Horizon Zero Dawn", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Gran Turismo 7", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-        { n: "Ghost of Tsushima", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Minecraft", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Roblox", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-        { n: "Fortnite", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Apex Legends", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Cyberpunk 2077", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "The Witcher 3: Wild Hunt", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Red Dead Redemption 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Red Dead Redemption 1", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Hogwarts Legacy", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "FC 25 (FIFA)", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "FC 24", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Zelda: Tears of the Kingdom", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-        { n: "Zelda: Breath of the Wild", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-        { n: "Super Mario Odyssey", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-        { n: "Mario Kart 8 Deluxe", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-        { n: "Animal Crossing: New Horizons", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
-        { n: "Final Fantasy VII Rebirth", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Final Fantasy XVI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Tekken 8", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Street Fighter 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Mortal Kombat 1", ps3: false, ps4: false, ps5: true, vr: false, nin: true },
-        { n: "Demon's Souls", ps3: true, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Bloodborne", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Dark Souls Remastered", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Dark Souls III", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Sekiro: Shadows Die Twice", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Black Myth: Wukong", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Helldivers 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Stellar Blade", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Ratchet & Clank: Rift Apart", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Uncharted 4: A Thief's End", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Uncharted: The Nathan Drake Collection", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Call of Duty: Black Ops 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Call of Duty: Warzone", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Destiny 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Fall Guys", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Among Us", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Overwatch 2", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Genshin Impact", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Honkai: Star Rail", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Metal Gear Solid V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Metal Gear Solid Δ: Snake Eater", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Death Stranding", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "It Takes Two", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Monster Hunter: World", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Monster Hunter Rise", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Monster Hunter Wilds", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Assassin's Creed Shadows", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Assassin's Creed Valhalla", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Persona 5 Royal", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Persona 3 Reload", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Sonic Frontiers", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Skyrim", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Fallout 4", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
-        { n: "Fallout 76", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Doom Eternal", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "No Man's Sky", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
-        { n: "Beat Saber", ps3: false, ps4: false, ps5: false, vr: true, nin: false },
-        { n: "Phasmophobia", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
-        { n: "Gran Blue Fantasy Relink", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Baldur's Gate 3", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Diablo IV", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Batman: Arkham Knight", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Batman: Arkham City", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Watch Dogs Legion", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Far Cry 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Devil May Cry 5", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Yakuza: Like a Dragon", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Like a Dragon: Infinite Wealth", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Infamous Second Son", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Journey", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Stray", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Kena: Bridge of Spirits", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Sackboy: A Big Adventure", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "LittleBigPlanet 3", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Bioshock Collection", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Mass Effect Legendary Edition", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
-        { n: "Borderlands 3", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
-        { n: "Dead Space Remake", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
-        { n: "Alan Wake 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false }
+      { n: "GTA VI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "GTA V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "GTA IV", ps3: true, ps4: false, ps5: false, vr: false, nin: false },
+      { n: "God of War Ragnarok", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "God of War (2018)", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "God of War III", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Elden Ring", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Spider-Man 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Spider-Man Miles Morales", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "The Last of Us Part I", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "The Last of Us Part II", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "The Last of Us Remastered", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Resident Evil 4 Remake", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
+      { n: "Resident Evil Village", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Resident Evil 7", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Astro Bot", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
+      { n: "Horizon Forbidden West", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Horizon Zero Dawn", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Gran Turismo 7", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
+      { n: "Ghost of Tsushima", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Minecraft", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Roblox", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
+      { n: "Fortnite", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Apex Legends", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Cyberpunk 2077", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "The Witcher 3: Wild Hunt", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Red Dead Redemption 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Red Dead Redemption 1", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Hogwarts Legacy", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "FC 25 (FIFA)", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "FC 24", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Zelda: Tears of the Kingdom", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
+      { n: "Zelda: Breath of the Wild", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
+      { n: "Super Mario Odyssey", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
+      { n: "Mario Kart 8 Deluxe", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
+      { n: "Animal Crossing: New Horizons", ps3: false, ps4: false, ps5: false, vr: false, nin: true },
+      { n: "Final Fantasy VII Rebirth", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Final Fantasy XVI", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Tekken 8", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Street Fighter 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Mortal Kombat 1", ps3: false, ps4: false, ps5: true, vr: false, nin: true },
+      { n: "Demon's Souls", ps3: true, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Bloodborne", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Dark Souls Remastered", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Dark Souls III", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Sekiro: Shadows Die Twice", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Black Myth: Wukong", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Helldivers 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Stellar Blade", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Ratchet & Clank: Rift Apart", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Uncharted 4: A Thief's End", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Uncharted: The Nathan Drake Collection", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Call of Duty: Black Ops 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Call of Duty: Warzone", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Destiny 2", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Fall Guys", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Among Us", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Overwatch 2", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Genshin Impact", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Honkai: Star Rail", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Metal Gear Solid V", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Metal Gear Solid Δ: Snake Eater", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Death Stranding", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "It Takes Two", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Monster Hunter: World", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Monster Hunter Rise", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Monster Hunter Wilds", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Assassin's Creed Shadows", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Assassin's Creed Valhalla", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Persona 5 Royal", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Persona 3 Reload", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Sonic Frontiers", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Skyrim", ps3: true, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Fallout 4", ps3: false, ps4: true, ps5: true, vr: true, nin: false },
+      { n: "Fallout 76", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Doom Eternal", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "No Man's Sky", ps3: false, ps4: true, ps5: true, vr: true, nin: true },
+      { n: "Beat Saber", ps3: false, ps4: false, ps5: false, vr: true, nin: false },
+      { n: "Phasmophobia", ps3: false, ps4: false, ps5: true, vr: true, nin: false },
+      { n: "Gran Blue Fantasy Relink", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Baldur's Gate 3", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Diablo IV", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Batman: Arkham Knight", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Batman: Arkham City", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Watch Dogs Legion", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Far Cry 6", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Devil May Cry 5", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Yakuza: Like a Dragon", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Like a Dragon: Infinite Wealth", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Infamous Second Son", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Journey", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Stray", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Kena: Bridge of Spirits", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Sackboy: A Big Adventure", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "LittleBigPlanet 3", ps3: true, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Bioshock Collection", ps3: true, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Mass Effect Legendary Edition", ps3: false, ps4: true, ps5: true, vr: false, nin: false },
+      { n: "Borderlands 3", ps3: false, ps4: true, ps5: true, vr: false, nin: true },
+      { n: "Dead Space Remake", ps3: false, ps4: false, ps5: true, vr: false, nin: false },
+      { n: "Alan Wake 2", ps3: false, ps4: false, ps5: true, vr: false, nin: false }
     ];
 
     function checkGame() {
@@ -294,7 +311,7 @@
       if (game) {
         resultDiv.style.display = "block";
         resTitle.innerText = game.n;
-        
+
         const badge = (s) => `<span class="badge ${s ? 'supported' : 'not-supported'}">${s ? '✔ YES' : '✘ NO'}</span>`;
 
         resList.innerHTML = `
@@ -311,4 +328,5 @@
     }
   </script>
 </body>
+
 </html>
